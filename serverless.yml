@@ -1,0 +1,64 @@
+service: employeemodule
+
+frameworkVersion: '2'
+
+disabledDeprecations:
+  - '*'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: us-east-1
+  lambdaHashingVersion: 20201221
+  iamRoleStatements:
+  - Effect: "Allow"
+    Action:
+      - ec2:CreateNetworkInterface
+      - ec2:DescribeNetworkInterfaces
+      - ec2:DeleteNetworkInterface
+    Resource:
+      - "*"
+functions:
+  getAllEmployees:
+    handler: handler.getAllEmployees
+    events:
+      - http:
+          path: /getAllEmployees
+          method: get
+          cors: true 
+  getEmployee:
+    handler: handler.getEmployee
+    events:
+      - http:
+          path: /getEmployee
+          method: get
+          cors: true 
+  createEmployee:
+    handler: handler.createEmployee 
+    events:
+      - http:
+          path: createEmployee
+          method: post
+          cors: true
+  updateEmployee:
+    handler: handler.updateEmployee 
+    events:
+      - http:
+          path: updateEmployee
+          method: put
+          cors: true
+  deleteEmployee:
+    handler: handler.deleteEmployee 
+    events:
+      - http:
+          path: deleteEmployee
+          method: delete
+          cors: true
+    VpcConfig:
+      securityGroupIds:
+        - sg-09f781c6c62bb1894
+      subnetIds:
+        - subnet-0beb20fa64213d9b3
+        - subnet-047033e679ab2e622
+        - subnet-00f86a73ea243958d
